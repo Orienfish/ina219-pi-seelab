@@ -9,7 +9,7 @@ SHUNT_OHMS = 0.1
 MAX_EXPECTED_AMPS = 1.0
 ADDRESS = 0x40
 
-class ina219_pi(object):
+class ina219_pi_seelab(object):
     def __init__(self, address=ADDRESS, shunt_ohms=SHUNT_OHMS,
                        max_expected_amps=MAX_EXPECTED_AMPS, filename=None):
         self.ina = INA219(shunt_ohms, max_expected_amps, address=address)
