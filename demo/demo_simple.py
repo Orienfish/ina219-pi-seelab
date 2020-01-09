@@ -10,6 +10,7 @@ from ina219-pi-seelab import ina219_pi_seelab
 
 PWR_FILE = "./ina219-power.txt"
 MEASURE_TIME = 10
+SAMPLE_INTERVAL = 100 # ms
 MSG = "Collecting power measurements for {} seconds...\r\n".format(
         MEASURE_TIME)
 MSG += "Check {} for detailed traces afterwards.".format(PWR_FILE)
@@ -40,7 +41,7 @@ def main():
     and return all power values in pwr_callback.pwr_data.
     '''
     ina_sensor = ina219_pi_seelab(PWR_FILE)
-    ina_sensor.run(pwr_callback)
+    ina_sensor.run(SAMPLE_INTERVAL, pwr_callback)
 
     print(MSG)
     time.sleep(MEASURE_TIME)
