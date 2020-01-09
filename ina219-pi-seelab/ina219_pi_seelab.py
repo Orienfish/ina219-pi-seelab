@@ -69,8 +69,8 @@ class ina219_pi_seelab(object):
         Start the separate thread of sampling.
 
         Args:
-            interval (ms): time interval of sampling.
-            callback (func): callback functions to send [time, pwr] list.
+            interval (ms): time interval of sampling
+            callback (func): callback functions to send [time, pwr] list
         '''
         # Create file
         if self.filename is not None:
