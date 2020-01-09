@@ -1,7 +1,7 @@
-#!/usr/bin/python
+#!/usr/bin/python2
 
 '''
-A simple power reading demo for ina219-pi-seelab
+A simple power reading demo for ina219_pi_seelab
 '''
 import os
 import time
