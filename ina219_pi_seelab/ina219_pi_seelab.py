@@ -1,4 +1,4 @@
-#!/usr/bin/python2
+#!/usr/bin/python3
 from ina219 import INA219
 from ina219 import DeviceRangeError
 import os
