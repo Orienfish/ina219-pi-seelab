@@ -20,8 +20,10 @@ def pwr_callback(pwr_data):
     Callback function that reads power from module.
     This function is responsible for recording time stamps
     that receive the power measurements.
+
     Args:
         pwr_data : [time stamp (s), power (W)]
+
     Attributes:
         pwr_callback.start_time (float): the time that first data comes in, seconds
         pwr_callback.pwr_data: A list of [time stamp (s), power (W)]
