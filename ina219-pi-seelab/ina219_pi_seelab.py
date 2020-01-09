@@ -17,6 +17,7 @@ class ina219_pi_seelab(object):
         self.filename = filename
         self.f = None
         self.loop_thread = None
+        self.interval = 0.0 # ms
         self.callback = None
 
     def log(self, str):
@@ -48,18 +49,29 @@ class ina219_pi_seelab(object):
 
     def run_in_loop(self):
         self.is_loop_running = True
-        self.start_time = time.time() * 1000
+        self.start_time = time.time() * 1000 # ms
         while self.is_loop_running:
-            t = float(time.time() * 1000 - self.start_time) # ms
+            cur_time = time.time() * 1000 # ms
+            t = float(cur_time - self.start_time) # ms
             pwr = self.read_power() # mW
             output_str = str(t) + ',' + str(pwr)
             if self.callback is not None:
                 self.callback([t, pwr]) # Pack into list and call functioin
-
             self.log(output_str)
+
+            delta = self.interval + cur_time - time.time() * 1000 # ms
+            delta = delta / 1000 # convert ms to s
+            time.sleep(max(delta, 0.0))
         # End of the loop
 
-    def run(self, callback=None):
+    def run(self, interval=0, callback=None):
+        '''
+        Start the separate thread of sampling.
+
+        Args:
+            interval (ms): time interval of sampling.
+            callback (func): callback functions to send [time, pwr] list.
+        '''
         # Create file
         if self.filename is not None:
             # Delete existing file if any
@@ -67,6 +79,7 @@ class ina219_pi_seelab(object):
                 os.remove(self.filename)
             self.f = open(self.filename, "w+"):
         self.callback = callback
+        self.interval = interval
 
         # Start thread
         self.loop_thread = threading.Thread(target=self.run_in_loop)
