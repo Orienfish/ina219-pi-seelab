@@ -6,9 +6,9 @@ A simple power reading demo for ina219-pi-seelab
 import os
 import time
 
-from ina219-pi-seelab import ina219_pi_seelab
+from ina219_pi_seelab import ina219_pi_seelab
 
-PWR_FILE = "./ina219-power.txt"
+PWR_FILE = "./ina219_power.txt"
 MEASURE_TIME = 10
 SAMPLE_INTERVAL = 100 # ms
 MSG = "Collecting power measurements for {} seconds...\r\n".format(
@@ -40,7 +40,7 @@ def main():
     Start measurement for 10s, save traces to PWR_FILE,
     and return all power values in pwr_callback.pwr_data.
     '''
-    ina_sensor = ina219_pi_seelab(PWR_FILE)
+    ina_sensor = ina219_pi_seelab(filename=PWR_FILE)
     ina_sensor.run(SAMPLE_INTERVAL, pwr_callback)
 
     print(MSG)

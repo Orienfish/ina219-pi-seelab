@@ -14,12 +14,12 @@ DEPENDENCIES = [
 ]
 
 setup(
-    name='ina219-pi-seelab',
+    name='ina219_pi_seelab',
     version=VERSION,
     description=SHORT_DESCRIPTION,
     long_description=LONG_DESCRIPTION,
     long_description_content_type="text/markdown",
-    packages=['ina219-pi-seelab'],
+    packages=['ina219_pi_seelab'],
     python_requires='>=2.7.13',
     install_requires=DEPENDENCIES
 )

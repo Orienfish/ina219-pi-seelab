@@ -77,7 +77,7 @@ class ina219_pi_seelab(object):
             # Delete existing file if any
             if os.path.exists(self.filename):
                 os.remove(self.filename)
-            self.f = open(self.filename, "w+"):
+            self.f = open(self.filename, "w+")
         self.callback = callback
         self.interval = interval
 
