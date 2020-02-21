@@ -43,15 +43,15 @@ def pwr_animation(pwr_data):
     pwr_data = np.array(pwr_data)
     fig = plt.figure()
     plt.xlim(0, MEASURE_TIME * 1000)
-    plt.ylim(np.amin(pwr_data), np.amax(pwr_data))
     plt.xlabel('time (ms)')
     plt.ylabel('power (W)')
-    plt.title('power animation')
+    plt.title('power reading with sampling interval {}ms'.format(SAMPLE_INTERVAL))
     x = pwr_data[:,0]
     y = pwr_data[:,1]
     line, = plt.plot(x, y, color='r')
+    DATA_LENGTH = pwr_data
     pwr_ani = animation.FuncAnimation(fig, update_pwr, len(pwr_data),fargs=[x,y,line],
-         interval = 20)
+         interval = 20, repeat=False)
     plt.show()
 
 pwr_callback.pwr_data = []
@@ -66,7 +66,6 @@ def main():
     time.sleep(MEASURE_TIME)
     ina_sensor.stop()
     pwr_animation(pwr_callback.pwr_data)
-
 if __name__ == '__main__':
     main()
 

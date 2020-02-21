@@ -10,7 +10,9 @@ SHORT_DESCRIPTION = (
 VERSION = '1.0'
 
 DEPENDENCIES = [
-    'pi-ina219'
+    'pi-ina219',
+    'numpy',
+    'matplotlib'
 ]
 
 setup(

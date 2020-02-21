@@ -28,19 +28,16 @@ def process():
     for start, end in phase:
         phase_pwr = []
         while i < len(all_pwr):
-            if all_pwr[i][0] == start:
+            if all_pwr[i][0] >= start:
                 start_idx = i
-                while all_pwr[i][0] != end:
-                    phase_pwr.append(all_pwr[i][1])
+                while all_pwr[i][0] <= end:
+                    phase_pwr.append(all_pwr[i][1] * (all_pwr[i+1][0] - all_pwr[i][0]))
                     i += 1
-                phase_pwr.append(all_pwr[i][1])
-                end_idx = i
                 print("total energy in phase {}-{} is {}".format(
-                    all_pwr[start_idx][0], all_pwr[end_idx][0],
-                    sum(phase_pwr)))
+                    start, end, sum(phase_pwr)))
                 print("average energy in phase {}-{} is {}".format(
-                    all_pwr[start_idx][0], all_pwr[end_idx][0],
-                    sum(phase_pwr)/len(phase_pwr)))
+                    start, end,
+                    sum(phase_pwr)/(end - start)))
                 print("\n")
                 break
             else:
@@ -80,7 +77,8 @@ def main():
     time.sleep(MEASURE_TIME)
 
     ina_sensor.stop()
-    
+
+
     # select several time intervals and write into log file
     log_file = open(LOG_FILE, "w+")
     i = 0
