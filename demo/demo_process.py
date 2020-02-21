@@ -8,11 +8,16 @@ import numpy as np
 import os
 import time
 from ina219_pi_seelab import ina219_pi_seelab
+import RPi.GPIO as GPIO
+
+GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(4, GPIO.IN)
 
 PWR_FILE = "./ina219_power.txt"
 LOG_FILE = "./ina219_log.txt"
-MEASURE_TIME = 10
-SAMPLE_INTERVAL = 100 # ms
+MEASURE_TIME = 1
+SAMPLE_INTERVAL = 0 # ms
 MSG = "Collecting power measurements for {} seconds...\r\n".format(
         MEASURE_TIME)
 MSG += "Check {} for detailed traces afterwards.".format(PWR_FILE)
@@ -27,17 +32,17 @@ def process():
     i, start_idx, end_idx = 0, 0, 0
     for start, end in phase:
         phase_pwr = []
-        while i < len(all_pwr):
+        while i < len(all_pwr)-1:
             if all_pwr[i][0] >= start:
                 start_idx = i
-                while all_pwr[i][0] <= end:
-                    phase_pwr.append(all_pwr[i][1] * (all_pwr[i+1][0] - all_pwr[i][0]))
+                while all_pwr[i][0] < end:
+                    phase_pwr.append(((all_pwr[i][1]+all_pwr[i+1][1])/2) * (all_pwr[i+1][0] - all_pwr[i][0]))
                     i += 1
                 print("total energy in phase {}-{} is {}".format(
-                    start, end, sum(phase_pwr)))
+                    all_pwr[start_idx][0], all_pwr[i][0], sum(phase_pwr)))
                 print("average energy in phase {}-{} is {}".format(
-                    start, end,
-                    sum(phase_pwr)/(end - start)))
+                    all_pwr[start_idx][0], all_pwr[i][0],
+                    sum(phase_pwr)/(all_pwr[i][0] - all_pwr[start_idx][0])))
                 print("\n")
                 break
             else:
@@ -71,24 +76,29 @@ def main():
     and return all power values in pwr_callback.pwr_data.
     '''
     ina_sensor = ina219_pi_seelab(filename=PWR_FILE)
+    #print('waiting')
+    #while(GPIO.input(4) == 0):
+        #pass
     ina_sensor.run(SAMPLE_INTERVAL, pwr_callback)
+    #while (GPIO.input(4) == 1):
+        #pass
 
-    print(MSG)
+    # print(MSG)
     time.sleep(MEASURE_TIME)
-
+    for i in range(10000000):
+        pass
     ina_sensor.stop()
-
+    #print('stopped')
 
     # select several time intervals and write into log file
     log_file = open(LOG_FILE, "w+")
     i = 0
-    while i < len(pwr_callback.pwr_data) - 5:
+    while i < len(pwr_callback.pwr_data) - 10:
         phase = "{},{}\n".format(pwr_callback.pwr_data[i][0], 
-                pwr_callback.pwr_data[i+5][0])
+                pwr_callback.pwr_data[i+10][0])
         log_file.write(phase)
-        i = i + 10
+        i = i + 20
     log_file.close()
-    
     process()
 
 
