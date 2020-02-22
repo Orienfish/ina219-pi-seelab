@@ -10,7 +10,9 @@ SHORT_DESCRIPTION = (
 VERSION = '1.0'
 
 DEPENDENCIES = [
-    'pi-ina219'
+    'pi-ina219',
+    'numpy',
+    'matplotlib'
 ]
 
 setup(
@@ -20,6 +22,6 @@ setup(
     long_description=LONG_DESCRIPTION,
     long_description_content_type="text/markdown",
     packages=['ina219_pi_seelab'],
-    python_requires='>=2.7.13',
+    python_requires='>=3.7.3',
     install_requires=DEPENDENCIES
 )
