@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python2
 
 '''
 This demo provides a processing script to calculate the energy
