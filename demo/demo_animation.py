@@ -11,8 +11,13 @@ import time
 from ina219_pi_seelab import ina219_pi_seelab
 
 SAMPLE_INTERVAL = 0 # continuous sampling
-MEASURE_TIME = 1
+SLEEP_TIME = 1 # seconds
 PWR_FILE = "./ina219_power.txt"
+
+# x and y axis boundaries
+MAX_TIME = 40.0 # seconds
+MAX_POWER = 5 # W
+
 def pwr_callback(pwr_data):
     '''
     Callback function that reads power data from module with continuous sampling
@@ -24,48 +29,67 @@ def pwr_callback(pwr_data):
     '''
     if pwr_callback.start_time is None:
         pwr_callback.start_time = time.time() * 1000
-    pwr_callback.pwr_data.append(pwr_data)
+    
+    # convert from ms and mW to s and W
+    pwr_callback.pwr_data.append([p / 1000 for p in pwr_data])
+pwr_callback.pwr_data = []
+pwr_callback.start_time = None
 
 
-def update_pwr(num, x, y, line):
-    '''
-    update function that updates the power to draw on the plot
-    '''
-    line.set_data(x[:num], y[:num])
-    return line,
-
-def pwr_animation(pwr_data):
+def pwr_animation():
     '''
     Function that creates an animation to display the readings
     Args:
         pwr_data : [time stamps(s), power(W)]
     '''
-    pwr_data = np.array(pwr_data)
     fig = plt.figure()
-    plt.xlim(0, MEASURE_TIME * 1000)
-    plt.xlabel('time (ms)')
-    plt.ylabel('power (W)')
-    plt.title('power reading with sampling interval {}ms'.format(SAMPLE_INTERVAL))
-    x = pwr_data[:,0]
-    y = pwr_data[:,1]
-    line, = plt.plot(x, y, color='r')
-    DATA_LENGTH = pwr_data
-    pwr_ani = animation.FuncAnimation(fig, update_pwr, len(pwr_data),fargs=[x,y,line],
-         interval = 20, repeat=False)
+    ax = fig.gca()
+    # default line, need to be mannually set
+    ts = np.arange(0, MAX_TIME, 0.1)
+    line, = ax.plot(ts, [0.0] * len(ts), color='b')
+
+    def init():
+        return line,
+
+    def animate(i):
+        '''
+        Prepare dataset and mannually set x and y axis
+        '''
+        pwr_data = np.array(pwr_callback.pwr_data)
+        if pwr_data.size == 0:
+            return line,
+
+        line.set_xdata(pwr_data[:, 0])
+        line.set_ydata(pwr_data[:, 1])
+        return line,
+
+    
+    pwr_ani = animation.FuncAnimation(fig, animate, np.arange(1, 1000), init_func=init,
+         interval=200, blit=True) # 1000 frames
+    
+    ax.set_xlim(0, MAX_TIME)
+    ax.set_ylim(0, MAX_POWER)
+    ax.set_xlabel('time (s)')
+    ax.set_ylabel('power (W)')
+    ax.set_title('power reading with sampling interval {}ms'.format(SAMPLE_INTERVAL))
     plt.show()
 
-pwr_callback.pwr_data = []
-pwr_callback.start_time = None
 def main():
     '''
     main function
     Generate an animation that displays readings in real time.
     '''
-    ina_sensor = ina219_pi_seelab()
+    ina_sensor = ina219_pi_seelab(filename=PWR_FILE)
     ina_sensor.run(SAMPLE_INTERVAL, pwr_callback)
-    time.sleep(MEASURE_TIME)
+    pwr_animation()
+
+    # the place to run your workload
+    time.sleep(SLEEP_TIME)
+    
+    # will stop after the user closes the plot
+    # SLEEP_TIME doesn't matter
     ina_sensor.stop()
-    pwr_animation(pwr_callback.pwr_data)
+
 if __name__ == '__main__':
     main()
 
