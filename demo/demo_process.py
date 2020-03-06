@@ -8,11 +8,6 @@ import numpy as np
 import os
 import time
 from ina219_pi_seelab import ina219_pi_seelab
-import RPi.GPIO as GPIO
-
-GPIO.setwarnings(False)
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(4, GPIO.IN)
 
 PWR_FILE = "./ina219_power.txt"
 LOG_FILE = "./ina219_log.txt"
@@ -76,19 +71,13 @@ def main():
     and return all power values in pwr_callback.pwr_data.
     '''
     ina_sensor = ina219_pi_seelab(filename=PWR_FILE)
-    #print('waiting')
-    #while(GPIO.input(4) == 0):
-        #pass
     ina_sensor.run(SAMPLE_INTERVAL, pwr_callback)
-    #while (GPIO.input(4) == 1):
-        #pass
 
-    # print(MSG)
+    print(MSG)
     time.sleep(MEASURE_TIME)
     for i in range(10000000):
         pass
     ina_sensor.stop()
-    #print('stopped')
 
     # select several time intervals and write into log file
     log_file = open(LOG_FILE, "w+")

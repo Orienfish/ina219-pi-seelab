@@ -21,11 +21,13 @@ When we use a Raspberry Pi to run a thread, and, at the same time, use INA219 se
 
 ## Results and Analysis
 
+(Note: The unit for power in the following figures should be mW instead of W, and the resistance should be set to 0.025ohm)
+
 Here is the power reading when running the demo code on a target Pi and measuring the power from another Pi:
 
 ![target_pi_figure](./Images/target_pi_figure.png)
 
-the average power consumption from 1500ms to 3500ms is around: 887
+the average power consumption from 1500ms to 3500ms is around: 887mW
 
 And here is the power reading when running the demo code and measuring the power on the same Pi:
 
