@@ -25,7 +25,7 @@ pip2 install -e .
 pip3 install -e .
 ```
 
-## Demo
+## Demos
 
 There are several handy demos included in the `demo` folder:
 
