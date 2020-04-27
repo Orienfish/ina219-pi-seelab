@@ -85,7 +85,7 @@ def main():
 
     # the place to run your workload
     time.sleep(SLEEP_TIME)
-    
+
     # will stop after the user closes the plot
     # SLEEP_TIME doesn't matter
     ina_sensor.stop()

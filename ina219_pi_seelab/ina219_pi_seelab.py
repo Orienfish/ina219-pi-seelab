@@ -5,7 +5,7 @@ import os
 import time
 import threading
 
-SHUNT_OHMS = 0.1
+SHUNT_OHMS = 0.025
 MAX_EXPECTED_AMPS = 1.0
 ADDRESS = 0x40
 
