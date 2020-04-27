@@ -5,9 +5,9 @@ import os
 import time
 import threading
 
-SHUNT_OHMS = 0.1
-MAX_EXPECTED_AMPS = 1.0
-ADDRESS = 0x40
+SHUNT_OHMS = 0.025          # shunt resistor in ohms
+MAX_EXPECTED_AMPS = 1.0     # max permitted current in amps
+ADDRESS = 0x40              # I2C address
 
 class ina219_pi_seelab(object):
     def __init__(self, address=ADDRESS, shunt_ohms=SHUNT_OHMS,

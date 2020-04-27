@@ -5,7 +5,7 @@ Work with Python 2.7 and 3.7.
 
 ## Installation
 
-Download the desired version from the release page and decompress it. `cd` into it, then:
+Download the desired version from the corresponding branch (`master` for Python >= 3.7, `py2.7` for Python >= 2.7) and decompress it. `cd` into it, then:
 
 ```shell
 # for Python 2.7
@@ -40,3 +40,19 @@ This demo shows how to create a simple animation to view the power traces in rea
 * [energy processing demo](./demo/demo_energy/)
 
 This demo provides a processing script to calculate the energy for each phase based on the record time stamp.
+
+## Notes
+
+* Please check the settings of parameters in `ina219_pi_seelab/ina219_pi_seelab.py` before using.
+
+  ```
+  SHUNT_OHMS = 0.025          # shunt resistor in ohms
+  MAX_EXPECTED_AMPS = 1.0     # max permitted current in amps
+  ADDRESS = 0x40              # I2C address
+  ```
+
+  For specific settings, check [tutorial by Adafruit](https://learn.adafruit.com/adafruit-ina219-current-sensor-breakout/overview).
+
+* The current version with animation and processing demos have not been thoroughly tested, thus the release is not ready. The prior release only includes the simple demo.
+
+  
