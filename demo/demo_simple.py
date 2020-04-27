@@ -9,7 +9,7 @@ import time
 from ina219_pi_seelab import ina219_pi_seelab
 
 PWR_FILE = "./ina219_power.txt"
-MEASURE_TIME = 10
+MEASURE_TIME = 10     # s
 SAMPLE_INTERVAL = 100 # ms
 MSG = "Collecting power measurements for {} seconds...\r\n".format(
         MEASURE_TIME)

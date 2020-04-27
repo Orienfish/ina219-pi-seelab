@@ -11,7 +11,7 @@ from ina219_pi_seelab import ina219_pi_seelab
 
 PWR_FILE = "./ina219_power.txt"
 LOG_FILE = "./ina219_log.txt"
-MEASURE_TIME = 1
+MEASURE_TIME = 1    # s
 SAMPLE_INTERVAL = 0 # ms
 MSG = "Collecting power measurements for {} seconds...\r\n".format(
         MEASURE_TIME)

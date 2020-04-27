@@ -11,12 +11,12 @@ import time
 from ina219_pi_seelab import ina219_pi_seelab
 
 SAMPLE_INTERVAL = 0 # continuous sampling
-SLEEP_TIME = 1 # seconds
+SLEEP_TIME = 1      # seconds, do not matter
 PWR_FILE = "./ina219_power.txt"
 
 # x and y axis boundaries
 MAX_TIME = 40.0 # seconds
-MAX_POWER = 5 # W
+MAX_POWER = 5   # W
 
 def pwr_callback(pwr_data):
     '''

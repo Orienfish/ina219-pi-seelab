@@ -5,8 +5,8 @@ import os
 import time
 import threading
 
-SHUNT_OHMS = 0.025
-MAX_EXPECTED_AMPS = 1.0
+SHUNT_OHMS = 0.025          # ohms
+MAX_EXPECTED_AMPS = 1.0     # amps
 ADDRESS = 0x40
 
 class ina219_pi_seelab(object):
