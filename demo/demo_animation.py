@@ -63,7 +63,6 @@ def pwr_animation():
         line.set_ydata(pwr_data[:, 1])
         return line,
 
-
     pwr_ani = animation.FuncAnimation(fig, animate, np.arange(1, 1000), init_func=init,
          interval=200, blit=True) # 1000 frames
 
